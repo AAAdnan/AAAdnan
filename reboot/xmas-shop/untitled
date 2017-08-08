@@ -1,0 +1,20 @@
+require "open-uri"
+require "nokogiri"
+require 'csv'
+
+def scrape_dribble_image()
+  images = []
+  doc = Nokogiri::HTML(open('https://dribbble.com/'))
+  doc.search('.dribbble-link').each do |element|
+    images << element["href"]
+  end
+  csv_options = {quote_char: '"' }
+  filepath    = 'output.csv'
+  CSV.open(filepath, 'wb', csv_options) do |csv|
+    # images.each do |imagelink|
+       csv << images
+    # end
+  end
+end
+
+scrape_dribble_image()
